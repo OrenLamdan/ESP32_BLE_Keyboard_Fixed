@@ -127,7 +127,7 @@ void BleKeyboard::begin(void)
 #else
 
  BLESecurity* pSecurity = new BLESecurity();
-
+//Changes to make it work with ESP32 S3: Oren
 #if defined(CONFIG_IDF_TARGET_ESP32C3) || defined(CONFIG_IDF_TARGET_ESP32S3)
 // C3/S3: some hosts dislike SC+MITM with NO_IO; bonding-only is safer
   pSecurity->setAuthenticationMode(ESP_LE_AUTH_BOND);

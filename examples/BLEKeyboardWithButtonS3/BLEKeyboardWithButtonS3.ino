@@ -12,7 +12,7 @@ const int BTN_PIN = 4;
 // Wait this long after connect before we allow any send (lets CCCD finish)
 const uint32_t SETTLE_MS   = 3000;
 // Minimum time between message sends (debounce / host “breathing room”)
-const uint32_t MIN_GAP_MS  = 2000;
+const uint32_t MIN_GAP_MS  = 20;
 // Delay between characters (slow + safe for old stacks)
 const uint16_t KEY_GAP_MS  = 12;
 // ------------------------------
@@ -36,7 +36,7 @@ bool buttonPressed() {
   }
   if (!now && (millis() - lastFlip) > 30) { // LOW and stable 30ms
     // wait for release to avoid repeats
-    while (!digitalRead(BTN_PIN)) { delay(2); }
+    while (!digitalRead(BTN_PIN)) { delay(0.5); }
     delay(20);
     return true;
   }
@@ -53,7 +53,7 @@ void sendText(const char* s) {
     kb.print(*p);
     delay(KEY_GAP_MS);
   }
-  kb.write(KEY_RETURN); // newline
+  //kb.write(KEY_RETURN); // newline
 }
 
 void setup() {
@@ -100,7 +100,7 @@ void loop() {
     if (readyToSend && buttonPressed()) {
       const unsigned long now = millis();
       if (now - lastSendAt >= MIN_GAP_MS) {
-        sendText("hello world");
+        sendText("b");
         lastSendAt = now;
       } else {
         Serial.println("[SKIP] Too soon since last send; throttled.");
